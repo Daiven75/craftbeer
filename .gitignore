@@ -1,24 +1,65 @@
+#JAVA
+*.class
+*.log
+*.gz
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+### Package Files ###
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Gradle temporary files ###
+**/.gradle
 target/
-!.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
+### Eclipse files ###
+**/.project
+**/.classpath
+**/.settings/
+*.factorypath
+blog/bin/
+**/.tern-project
+bin/
 
-### IntelliJ IDEA ###
+### IntelliJ files ###
+**/*.iml
+**/.idea
+**/*.iws
+**/*.ipr
+.editorconfig
+
+### MACOS ###
+.DS_Store
 .idea
-*.iws
 *.iml
-*.ipr
 
 ### NetBeans ###
-nbproject/private/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### MAVEN ###
+mvnw
+mvnw.cmd
+.mvn
+
+### REDHAT ###
+.adoc
+
+### STS ###
+.sts4-cache
+
+rds-truststore.jks
+nbactions.xml

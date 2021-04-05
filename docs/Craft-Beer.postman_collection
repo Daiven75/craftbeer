@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "90c2eb84-acd2-4b7d-9996-2078718e1c25",
+		"name": "Craft-beer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/beers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/beers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/beers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Beer test\",\r\n    \"ingredients\": \"ingredients test\",\r\n    \"alcoholContent\": \"alcoholContent test\",\r\n    \"price\": 0.00,\r\n    \"category\": \"category test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/beers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/beers/{id}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/beers/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/beers/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Beer test update\",\r\n\t\"ingredients\": \"ingredients test update\",\r\n\t\"alcoholContent\": \"alcoholContent test update\",\r\n\t\"price\": 0.01,\r\n\t\"category\": \"category test update\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/beers/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/beers/{id}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Beer test update\",\r\n\t\"ingredients\": \"ingredients test update\",\r\n\t\"alcoholContent\": \"alcoholContent test update\",\r\n\t\"price\": 0.01,\r\n\t\"category\": \"category test update\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/beers/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/beers/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/beers/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"beers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
