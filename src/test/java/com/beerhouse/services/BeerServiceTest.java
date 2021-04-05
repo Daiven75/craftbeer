@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.beerhouse.dto.BeerDTO;
+import com.beerhouse.dto.BeerRequestDTO;
 import com.beerhouse.exceptions.ObjectNotFoundException;
 import com.beerhouse.models.Beer;
 import com.beerhouse.repositories.BeerRepository;
@@ -31,28 +32,15 @@ public class BeerServiceTest {
 	
 	@Test
 	public void saveBeerWithSucess() throws Exception {
-		Beer beer = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer = newBeer(3L);
 		
 		when(beerRepository.findById(beer.getId())).thenReturn(Optional.empty());
 		Assertions.assertThatCode(() -> beerService.saveBeer(beer)).doesNotThrowAnyException();
 	}
 	
-
 	@Test
 	public void findByIdWithSucess() throws Exception {
-		BeerDTO beerDTO = new BeerDTO(
-				"Beer test update",
-				"ingredients test update",
-				"alcoholContent test update",
-				0.01,
-				"category test update");
-		Beer beer = new Beer(beerDTO);
+		Beer beer = newBeer(1L);
 		
 		when(beerRepository.findById(1L)).thenReturn(Optional.of(beer));
 		final Beer beerExpected = beerService.findById(1L);
@@ -70,57 +58,65 @@ public class BeerServiceTest {
 	
 	@Test
 	public void findAllBeersWithSucess() throws Exception {
-		Beer beer1 = new Beer(
-				2L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
-		Beer beer2 = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer1 = newBeer(2L);
+		Beer beer2 = newBeer(3L);
 		
 		List<Beer> listBeer = Lists.newArrayList(beer1, beer2);
 		when(beerRepository.findAll()).thenReturn(listBeer);
+		listBeer = beerService.findAll();
 		assertThat(listBeer).isNotEmpty();
 	}
 	
 	@Test
-	public void updateBeerWithSucess() throws Exception {
+	public void updateAllDataBeerWithSucess() throws Exception {
+		Beer beer = newBeer(3L);
+		BeerRequestDTO beerRequestDTO = newBeerRequestDTO();
+		
+		when(beerRepository.findById(beer.getId())).thenReturn(Optional.of(beer));
+		Assertions.assertThatCode(() -> beerService.updateAllDataBeer(beer.getId(), beerRequestDTO)).doesNotThrowAnyException();
+	}
+	
+	@Test
+	public void updateSomeDataBeerWithSucess() throws Exception {
+		Beer beer = newBeer(3L);
+		BeerDTO beerDTO = newBeerDTO();
+		
+		when(beerRepository.findById(beer.getId())).thenReturn(Optional.of(beer));
+		Assertions.assertThatCode(() -> beerService.updateSomeDataBeer(beer.getId(), beerDTO)).doesNotThrowAnyException();
+	}
+	
+	@Test
+	public void deleteBeerWithSucess() throws Exception {
+		Beer beer = newBeer(3L);
+		
+		when(beerRepository.findById(beer.getId())).thenReturn(Optional.of(beer));
+		Assertions.assertThatCode(() -> beerService.deleteBeer(beer.getId())).doesNotThrowAnyException();
+	}
+	
+	private Beer newBeer(Long id) {
 		Beer beer = new Beer(
-				3L, 
+				id, 
 				"Beer test",
 				"ingredients test",
 				"alcoholContent test",
 				0.00,
 				"category test");
-		BeerDTO beerDTO = new BeerDTO(
+		return beer;
+	}
+	
+	private BeerRequestDTO newBeerRequestDTO() {
+		BeerRequestDTO beerRequestDTO = new BeerRequestDTO(
 				"Beer test update",
 				"ingredients test update",
 				"alcoholContent test update",
 				0.01,
 				"category test update");
-		
-		when(beerRepository.findById(beer.getId())).thenReturn(Optional.of(beer));
-		Assertions.assertThatCode(() -> beerService.updateBeer(beer.getId(), beerDTO)).doesNotThrowAnyException();
+		return beerRequestDTO;
 	}
 	
-	@Test
-	public void deleteBeerWithSucess() throws Exception {
-		Beer beer = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
-		
-		when(beerRepository.findById(beer.getId())).thenReturn(Optional.of(beer));
-		Assertions.assertThatCode(() -> beerService.deleteBeer(beer.getId())).doesNotThrowAnyException();
+	private BeerDTO newBeerDTO() {
+		BeerDTO beerDTO = new BeerDTO();
+		beerDTO.setPrice(6.00);
+		return beerDTO;
 	}
 }

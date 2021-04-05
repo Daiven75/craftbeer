@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.beerhouse.dto.BeerDTO;
+import com.beerhouse.dto.BeerRequestDTO;
 import com.beerhouse.models.Beer;
 import com.beerhouse.services.BeerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,13 +41,7 @@ public class BeerResourceTest {
 	
 	@Test
 	public void getBeerByIdWithSucess() throws Exception {
-		Beer beer = new Beer(
-				2L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer = newBeer(2L);
 		
 		doReturn(beer).when(beerService).findById(2L);
 		
@@ -57,21 +52,8 @@ public class BeerResourceTest {
 	
 	@Test
 	public void getAllBeerWithSucess() throws Exception {
-		Beer beer1 = new Beer(
-				2L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
-		
-		Beer beer2 = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer1 = newBeer(2L);
+		Beer beer2 = newBeer(3L);
 		
 		doReturn(Lists.newArrayList(beer1, beer2)).when(beerService).findAll();
 		
@@ -82,19 +64,14 @@ public class BeerResourceTest {
 	
 	@Test
 	public void saveBeerWithSucess() throws Exception {
-		BeerDTO beerDTO = new BeerDTO(
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
-		Beer beer = new Beer(beerDTO);
+		BeerRequestDTO beerRequestDTO = newBeerRequestDTO();
+		Beer beer = new Beer(beerRequestDTO);
 		beer.setId(2L);
 		
 		doReturn(beer).when(beerService).saveBeer(any());
 		
 		this.mockMvc.perform(post("/beers")
-				.content(asJsonString(beerDTO))
+				.content(asJsonString(beerRequestDTO))
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isCreated())
 			.andExpect(header().string(HttpHeaders.LOCATION, "http://localhost/beers/2"))
@@ -102,48 +79,24 @@ public class BeerResourceTest {
 	}
 	
 	@Test
-	public void updateBeerWithSucess() throws Exception {
-		Beer beer = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+	public void updateAllDataBeerWithSucess() throws Exception {
+		Beer beer = newBeer(3L);
+		BeerRequestDTO beerRequestDTO = newBeerRequestDTO();
 		
-		BeerDTO beerDTO = new BeerDTO(
-				"Beer test update",
-				"ingredients test update",
-				"alcoholContent test update",
-				0.01,
-				"category test update");
-		
-		doReturn(beer).when(beerService).updateBeer(3L, beerDTO);
+		doReturn(beer).when(beerService).updateAllDataBeer(3L, beerRequestDTO);
 		
 		this.mockMvc.perform(put("/beers/3")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(asJsonString(beerDTO)))
+				.content(asJsonString(beerRequestDTO)))
 		.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void updateBeerPatchWithSucess() throws Exception {
-		Beer beer = new Beer(
-				3L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer = newBeer(3L);
+		BeerDTO beerDTO = newBeerDTO();
 		
-		BeerDTO beerDTO = new BeerDTO(
-				"Beer test update",
-				"ingredients test update",
-				"alcoholContent test update",
-				0.01,
-				"category test update");
-		
-		doReturn(beer).when(beerService).updateBeer(3L, beerDTO);
+		doReturn(beer).when(beerService).updateSomeDataBeer(3L, beerDTO);
 		
 		this.mockMvc.perform(patch("/beers/3")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -153,13 +106,7 @@ public class BeerResourceTest {
 	
 	@Test
 	public void deleteBeerById() throws Exception {
-		Beer beer = new Beer(
-				2L, 
-				"Beer test",
-				"ingredients test",
-				"alcoholContent test",
-				0.00,
-				"category test");
+		Beer beer = newBeer(2L);
 
 		doNothing().when(beerService).deleteBeer(beer.getId());
 		
@@ -174,4 +121,31 @@ public class BeerResourceTest {
             throw new RuntimeException(e);
         }
     }
+	
+	private Beer newBeer(Long id) {
+		Beer beer = new Beer(
+				id, 
+				"Beer test",
+				"ingredients test",
+				"alcoholContent test",
+				0.00,
+				"category test");
+		return beer;
+	}
+	
+	private BeerRequestDTO newBeerRequestDTO() {
+		BeerRequestDTO beerRequestDTO = new BeerRequestDTO(
+				"Beer test update",
+				"ingredients test update",
+				"alcoholContent test update",
+				0.01,
+				"category test update");
+		return beerRequestDTO;
+	}
+	
+	private BeerDTO newBeerDTO() {
+		BeerDTO beerDTO = new BeerDTO();
+		beerDTO.setPrice(6.00);
+		return beerDTO;
+	}
 }
